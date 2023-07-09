@@ -1,0 +1,12 @@
+---
+
+rsyslog_package_name:
+  - rsyslog
+
+rsyslog_service_name: rsyslog
+
+rsyslog_daemon_config_file:
+
+rsyslog_global_config_file: '/etc/rsyslog.conf'
+
+rsyslog_dropin_config_dirs: '/etc/rsyslog.d'

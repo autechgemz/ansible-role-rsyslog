@@ -1,0 +1,9 @@
+galaxy_info:
+  role_name: rsyslog
+  namespace: autechgemz
+  author: "autechgemz@gmail.com"
+  description: "Manage system message logging service."
+  license: MIT
+  min_ansible_version: "1.2"
+  galaxy_tags: []
+dependencies: []

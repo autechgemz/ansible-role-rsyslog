@@ -1,0 +1,5 @@
+*.yml eol=lf
+*.yaml eol=lf
+*.j2 eol=lf
+*.sh eol=lf
+*.cfg eol=lf

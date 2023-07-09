@@ -1,0 +1,53 @@
+---
+
+- name: Config tasks
+  become: true
+  tags:
+    - rsyslog_config
+    - rsyslog
+  block:
+    - name: Manage daemon config tasks
+      when:
+        - rsyslog_daemon_config_file is defined and rsyslog_daemon_config_file
+        - rsyslog_daemon_config_options is defined and rsyslog_daemon_config_options
+      ansible.builtin.template:
+        src: rsyslog.j2
+        dest: "{{ rsyslog_daemon_config_file }}"
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart rsyslog
+
+    - name: Manage global config tasks
+      when:
+        - rsyslog_global_config_file is defined and rsyslog_global_config_file
+        - rsyslog_global_config_options is defined and rsyslog_global_config_options
+      ansible.builtin.template:
+        src: rsyslog.conf.j2
+        dest: "{{ rsyslog_global_config_file }}"
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart rsyslog
+
+    - name: Manage dropin config tasks
+      when:
+        - rsyslog_dropin_config_options is defined and rsyslog_dropin_config_options
+        - item.state is defined and item.state == 'present' or item.state is undefined
+      ansible.builtin.template:
+        src: rsyslog_dropin.conf.j2
+        dest: "{{ rsyslog_dropin_config_dirs }}/{{ item.name }}"
+        owner: root
+        group: root
+        mode: 0640
+      with_items: "{{ rsyslog_dropin_config_options }}"
+      notify: Restart rsyslog
+
+    - name: Remove dropin config
+      when:
+        - rsyslog_dropin_config_options is defined and rsyslog_dropin_config_options
+        - item.state is defined and item.state == 'absent'
+      ansible.builtin.file:
+        path: "{{ rsyslog_dropin_config_dirs }}/{{ item.name }}"
+        state: absent
+      with_items: "{{ rsyslog_dropin_config_options }}"

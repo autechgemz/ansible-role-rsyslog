@@ -1,0 +1,24 @@
+---
+
+- name: Rsyslog tasks
+  when: ansible_os_family == 'RedHat' or ansible_os_family == 'Debian'
+  tags:
+    - rsyslog_config
+    - rsyslog_service
+    - rsyslog
+  block:
+    - name: Set dependency variables
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - "{{ ansible_os_family }}.yml"
+    - name: Installation tasks
+      ansible.builtin.import_tasks: install.yml
+    - name: Configration tasks
+      ansible.builtin.import_tasks: config.yml
+    - name: Service tasks
+      ansible.builtin.import_tasks: service.yml
+  rescue:
+    - name: Print Error
+      ansible.builtin.debug:
+        msg: "Unsupport platform or error occurred due to some reason."
+      failed_when: true

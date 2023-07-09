@@ -1,0 +1,15 @@
+---
+
+rsyslog_package_ensure: present
+
+rsyslog_service_ensure: 'started'
+
+rsyslog_service_enable: true
+
+rsyslog_daemon_config_options: []
+
+rsyslog_global_config_options: []
+
+rsyslog_dropin_config_purge: false
+
+rsyslog_dropin_config_options: []

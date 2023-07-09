@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+{% if rsyslog_daemon_config_options is defined and rsyslog_daemon_config_options %}
+{% for line in rsyslog_daemon_config_options %}
+{{ line }}
+{% endfor %}
+{% endif %}

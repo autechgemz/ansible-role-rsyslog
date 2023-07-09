@@ -1,0 +1,14 @@
+---
+
+- name: Service tasks
+  become: true
+  tags:
+    - rsyslog_service
+    - rsyslog
+  block:
+    - name: Manage rsyslog service
+      ansible.builtin.service:
+        name: "{{ rsyslog_service_name }}"
+        state: "{{ rsyslog_service_ensure }}"
+        enabled: "{{ rsyslog_service_enable }}"
+      when: not ansible_check_mode

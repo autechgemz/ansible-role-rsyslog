@@ -1,0 +1,23 @@
+---
+
+- name: Install tasks
+  become: true
+  tags:
+    - rsyslog_install
+    - rsyslog
+  block:
+
+    - name: Install rsyslog package
+      when: ansible_os_family == 'Debian'
+      ansible.builtin.apt:
+        name: ["{{ item }}"]
+        update_cache: true
+        state: "{{ rsyslog_package_ensure }}"
+      with_items: "{{ rsyslog_package_name }}"
+
+    - name: Install rsyslog package
+      when: ansible_os_family == 'RedHat'
+      ansible.builtin.yum:
+        name: ["{{ item }}"]
+        state: "{{ rsyslog_package_ensure }}"
+      with_items: "{{ rsyslog_package_name }}"
