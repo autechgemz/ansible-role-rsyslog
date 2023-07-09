@@ -57,12 +57,6 @@ rsyslog_daemon_config_options: []
 rsyslog_global_config_options: []
 ```
 
-### rsyslog_dropin_config_purge: (bool)
-
-```
-rsyslog_dropin_config_purge: false
-```
-
 ### rsyslog_dropin_config_options: (list)
 
 ```
