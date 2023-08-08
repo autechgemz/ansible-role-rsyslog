@@ -1,6 +1,15 @@
 # {{ ansible_managed }}
-{% if rsyslog_daemon_config_options is defined and rsyslog_daemon_config_options %}
-{% for line in rsyslog_daemon_config_options %}
-{{ line }}
+{# TODO: NEED REFACTOR #}
+{% set comment_config = "" %}
+{% set comment_result = [] %}
+{% for lines in rsyslog_daemon_config_merged %}
+{%   set comment_config = (lines|regex_search("^#{1}+.+$")|regex_replace("^#{1}+", "")) %}
+{%   set comment_result = comment_result.append(comment_config) if comment_config %}
 {% endfor %}
-{% endif %}
+{% set line = [] %}
+{% for line in rsyslog_daemon_config_merged %}
+{%   set line = (line|regex_replace("^#{1}+", "")) %}
+{%   if line not in comment_result %}
+{{     line }}
+{%   endif %}
+{% endfor %}

@@ -1,0 +1,39 @@
+---
+
+rsyslog_daemon_config_default: []
+
+rsyslog_global_config_default:
+  - 'module(load="imuxsock")'
+  - 'module(load="imklog" permitnonkernelfacility="on")'
+  - '$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat'
+  - '$RepeatedMsgReduction on'
+  - '$FileOwner syslog'
+  - '$FileGroup adm'
+  - '$FileCreateMode 0640'
+  - '$DirCreateMode 0755'
+  - '$Umask 0022'
+  - '$PrivDropToUser syslog'
+  - '$PrivDropToGroup syslog'
+  - '$WorkDirectory /var/spool/rsyslog'
+  - '$IncludeConfig /etc/rsyslog.d/*.conf'
+
+rsyslog_dropin_config_default:
+  - name: '20-ufw.conf'
+    state: present
+    content:
+      - ':msg,contains,"[UFW " /var/log/ufw.log'
+      - '& stop'
+  - name: '21-cloudinit.conf'
+    state: present
+    content:
+      - ':syslogtag, isequal, "[CLOUDINIT]" /var/log/cloud-init.log'
+      - '& stop'
+  - name: '50-default.conf'
+    state: present
+    content:
+      - 'auth,authpriv.*                 /var/log/auth.log'
+      - '*.*;auth,authpriv.none          -/var/log/syslog'
+      - 'kern.*                          -/var/log/kern.log'
+      - 'mail.*                          -/var/log/mail.log'
+      - 'mail.err                        /var/log/mail.err'
+      - '*.emerg                         :omusrmsg:*'

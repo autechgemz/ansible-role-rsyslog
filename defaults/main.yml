@@ -1,5 +1,7 @@
 ---
 
+rsyslog_debug: false
+
 rsyslog_package_ensure: present
 
 rsyslog_service_ensure: 'started'
