@@ -1,0 +1,28 @@
+---
+
+rsyslog_daemon_config_default:
+  - 'SYSLOGD_OPTIONS=""'
+
+rsyslog_global_config_default:
+  - 'global(workDirectory="/var/lib/rsyslog")'
+  - 'module(load="builtin:omfile" Template="RSYSLOG_TraditionalFileFormat")'
+  - 'module(load="imuxsock" SysSock.Use="off")'
+  - 'module(load="imjournal" StateFile="imjournal.state")'
+  - 'include(file="/etc/rsyslog.d/*.conf" mode="optional")'
+
+rsyslog_dropin_config_default:
+  - name: '20-default.conf'
+    state: present
+    content:
+      - '*.info;mail.none;authpriv.none;cron.none                /var/log/messages'
+      - 'authpriv.*                                              /var/log/secure'
+      - 'mail.*                                                  -/var/log/maillog'
+      - 'cron.*                                                  /var/log/cron'
+      - '*.emerg                                                 :omusrmsg:*'
+      - 'uucp,news.crit                                          /var/log/spooler'
+      - 'local7.*                                                /var/log/boot.log'
+  - name: '21-cloudinit.conf'
+    state: present
+    content:
+      - ':syslogtag, isequal, "[CLOUDINIT]" /var/log/cloud-init.log'
+      - '& stop'
