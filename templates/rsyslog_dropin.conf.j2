@@ -3,12 +3,12 @@
 {% set comment_config = "" %}
 {% set comment_result = [] %}
 {% for lines in item.content %}
-{%   set comment_config = (lines|regex_search("^#{1}+.+$")|regex_replace("^#{1}+", "")) %}
+{%   set comment_config = (lines|regex_search("^#+")|regex_replace("^#+", "")) %}
 {%   set comment_result = comment_result.append(comment_config) if comment_config %}
 {% endfor %}
 {% set line = [] %}
 {% for line in item.content %}
-{%   set line = (line|regex_replace("^#{1}+", "")) %}
+{%   set line = (line|regex_replace("^#+", "")) %}
 {%   if line not in comment_result %}
 {{     line }}
 {%   endif %}
