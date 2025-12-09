@@ -8,7 +8,7 @@
   block:
 
     - name: Install rsyslog package
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts.os_family == 'Debian'
       ansible.builtin.apt:
         name: ["{{ item }}"]
         update_cache: true
@@ -16,7 +16,7 @@
       with_items: "{{ rsyslog_package_name }}"
 
     - name: Install rsyslog package
-      when: ansible_os_family == 'RedHat'
+      when: ansible_facts.os_family == 'RedHat'
       ansible.builtin.yum:
         name: ["{{ item }}"]
         state: "{{ rsyslog_package_ensure }}"
