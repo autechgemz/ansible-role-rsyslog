@@ -12,12 +12,12 @@
         rsyslog_daemon_config_merged: "{{ rsyslog_daemon_config_default | zip(rsyslog_daemon_config_options) | flatten | unique }}"
 
     - name: Debug print
-      when: rsyslog_debug is defined and rsyslog_debug
+      when: rsyslog_debug is defined and rsyslog_debug | bool
       ansible.builtin.debug:
         var: rsyslog_daemon_config_merged
 
     - name: Manage daemon config tasks
-      when: rsyslog_daemon_config_merged is defined and rsyslog_daemon_config_merged
+      when: rsyslog_daemon_config_merged is defined and rsyslog_daemon_config_merged | length > 0
       ansible.builtin.template:
         src: rsyslog.j2
         dest: "{{ rsyslog_daemon_config_file }}"
@@ -31,12 +31,12 @@
         rsyslog_global_config_merged: "{{ rsyslog_global_config_default | zip(rsyslog_global_config_options) | flatten | unique }}"
 
     - name: Debug print
-      when: rsyslog_debug is defined and rsyslog_debug
+      when: rsyslog_debug is defined and rsyslog_debug | bool
       ansible.builtin.debug:
         var: rsyslog_global_config_merged
 
     - name: Manage global config tasks
-      when: rsyslog_global_config_merged is defined and rsyslog_global_config_merged
+      when: rsyslog_global_config_merged is defined and rsyslog_global_config_merged | length > 0
       ansible.builtin.template:
         src: rsyslog.conf.j2
         dest: "{{ rsyslog_global_config_file }}"
@@ -46,7 +46,7 @@
       notify: Restart rsyslog
 
     - name: Debug print
-      when: rsyslog_debug is defined and rsyslog_debug
+      when: rsyslog_debug is defined and rsyslog_debug | bool
       ansible.builtin.debug:
         var: rsyslog_dropin_config_options
 
@@ -67,3 +67,4 @@
         path: "{{ rsyslog_dropin_config_dirs }}/{{ item.name }}"
         state: absent
       with_items: "{{ rsyslog_dropin_config_options if rsyslog_dropin_config_options else rsyslog_dropin_config_default }}"
+
