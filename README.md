@@ -19,7 +19,7 @@ None
 
 ## Example Playbook
 
-```
+```yaml
 - hosts: all
   roles:
     - rsyslog
@@ -29,37 +29,37 @@ None
 
 ### rsyslog_package_ensure: (string)
 
-```
+```yaml
 rsyslog_package_ensure: 'present'
 ```
 
 ### rsyslog_service_ensure: (string)
 
-```
+```yaml
 rsyslog_service_ensure: 'started'
 ```
 
 ### rsyslog_service_enable: (bool)
 
-```
+```yaml
 rsyslog_service_enable: true
 ```
 
 ### rsyslog_daemon_config_options: (list)
 
-```
+```yaml
 rsyslog_daemon_config_options: []
 ```
 
 ### rsyslog_global_config_options: (list)
 
-```
+```yaml
 rsyslog_global_config_options: []
 ```
 
 ### rsyslog_dropin_config_options: (list)
 
-```
+```yaml
 rsyslog_dropin_config_options: []
 ```
 
@@ -67,7 +67,7 @@ rsyslog_dropin_config_options: []
 
 ### RedHat
 
-```
+```yaml
 rsyslog_global_config_options:
   - 'SYSLOGD_OPTIONS=""'
 
@@ -77,7 +77,7 @@ rsyslog_dropin_config_options:
 
 ### Ubuntu
 
-```
+```yaml
 rsyslog_global_config_options:
   - 'module(load="imuxsock")'
   - 'module(load="imklog" permitnonkernelfacility="on")'
