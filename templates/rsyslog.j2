@@ -1,6 +1,7 @@
 # {{ ansible_managed }}
 {% for config_line in rsyslog_daemon_config_merged %}
-{%   if not (config_line is match("^\s*#")) %}
+{%   set line = config_line | trim %}
+{%   if line and not line.startswith('#') %}
 {{ config_line }}
 {%   endif %}
 {% endfor %}

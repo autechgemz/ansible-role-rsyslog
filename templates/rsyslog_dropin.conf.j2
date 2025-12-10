@@ -1,6 +1,7 @@
 # {{ ansible_managed }}
 {% for config_line in item.content %}
-{%   if not (config_line is match("^\s*#")) %}
+{%   set line = config_line | trim %}
+{%   if line and not line.startswith('#') %}
 {{ config_line }}
 {%   endif %}
 {% endfor %}
