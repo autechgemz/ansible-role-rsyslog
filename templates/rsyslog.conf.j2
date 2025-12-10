@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 {% for config_line in rsyslog_global_config_merged %}
-{%   if config_line is not match("^#.*") %}
+{%   if not (config_line is match("^\s*#")) %}
 {{ config_line }}
 {%   endif %}
 {% endfor %}

@@ -9,7 +9,7 @@
 
     - name: Merge config
       ansible.builtin.set_fact:
-        rsyslog_daemon_config_merged: "{{ rsyslog_daemon_config_default | zip(rsyslog_daemon_config_options) | flatten | unique }}"
+        rsyslog_daemon_config_merged: "{{ (rsyslog_daemon_config_default + rsyslog_daemon_config_options) | unique }}"
 
     - name: Debug print
       when: rsyslog_debug is defined and rsyslog_debug | bool
@@ -28,7 +28,7 @@
 
     - name: Merge config
       ansible.builtin.set_fact:
-        rsyslog_global_config_merged: "{{ rsyslog_global_config_default | zip(rsyslog_global_config_options) | flatten | unique }}"
+        rsyslog_global_config_merged: "{{ (rsyslog_global_config_default + rsyslog_global_config_options) | unique }}"
 
     - name: Debug print
       when: rsyslog_debug is defined and rsyslog_debug | bool
